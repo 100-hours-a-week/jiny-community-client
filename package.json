@@ -2,11 +2,9 @@
   "name": "ktb-community-webapp",
   "version": "0.1.0",
   "description": "KTB Community Web Application",
-  "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js",
-    "serve": "live-server --port=8080 --host=localhost --open=public/",
+    "start": "npm run dev",
+    "dev": "live-server public/ --port=3000 --host=localhost",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -15,9 +13,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "express": "5.1.0"
-  },
   "devDependencies": {
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
