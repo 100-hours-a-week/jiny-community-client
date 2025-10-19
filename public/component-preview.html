@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component Preview - KTB Community</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <style>
+      body {
+        padding: 2rem;
+      }
+
+      .preview-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .preview-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .preview-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+        border-bottom: 2px solid #7f6aee;
+        padding-bottom: 0.5rem;
+      }
+
+      .preview-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .component-wrapper {
+        background: #fafafa;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 1px dashed #ccc;
+      }
+
+      .component-label {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+    </style>
+
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="/component/button/button.css" />
+    <link rel="stylesheet" href="/component/input/input.css" />
+    <link rel="stylesheet" href="/component/header/header.css" />
+    <link rel="stylesheet" href="/component/modal/modal.css" />
+    <link rel="stylesheet" href="/component/post-card/post-card.css" />
+    <link rel="stylesheet" href="/component/comment/comment.css" />
+  </head>
+
+  <body>
+    <div class="preview-container">
+      <h1 style="margin-bottom: 2rem; font-size: 2rem; color: #333">
+        Component Preview
+      </h1>
+
+      <!-- Header Component -->
+      <section class="preview-section">
+        <h2>Header</h2>
+        <div id="header-container"></div>
+      </section>
+
+      <!-- Button Component -->
+      <section class="preview-section">
+        <h2>Buttons</h2>
+        <div class="preview-grid">
+          <div class="component-wrapper">
+            <div class="component-label">Primary Button</div>
+            <button class="btn btn--primary">확인</button>
+          </div>
+
+          <div class="component-wrapper">
+            <div class="component-label">Black Button</div>
+            <button class="btn btn--black">취소</button>
+          </div>
+
+          <div class="component-wrapper">
+            <div class="component-label">Outline Button</div>
+            <button class="btn btn--outline">수정</button>
+          </div>
+
+          <div class="component-wrapper">
+            <div class="component-label">Danger Button</div>
+            <button class="btn btn--danger">삭제</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Input Component -->
+      <section class="preview-section">
+        <h2>Input</h2>
+        <div style="max-width: 400px">
+          <div class="input-group">
+            <label for="email">이메일</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="이메일을 입력하세요"
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="password">비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요"
+            />
+            <span class="helper-text">비밀번호는 8자 이상이어야 합니다.</span>
+          </div>
+
+          <div class="input-group">
+            <label for="nickname">닉네임</label>
+            <input type="text" id="nickname" value="입력된 값" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Post Card Component -->
+      <section class="preview-section">
+        <h2>Post Card</h2>
+        <div id="post-card-container-1"></div>
+        <div id="post-card-container-2"></div>
+      </section>
+
+      <!-- Comment Component -->
+      <section class="preview-section">
+        <h2>Comment</h2>
+        <div id="comment-container-1"></div>
+        <div id="comment-container-2"></div>
+      </section>
+
+      <!-- Modal Component -->
+      <section class="preview-section">
+        <h2>Modal</h2>
+        <button class="btn btn--primary" onclick="showModal()">
+          모달 열기
+        </button>
+        <div id="modal-container"></div>
+      </section>
+    </div>
+
+    <script>
+      // 컴포넌트 로드 헬퍼 함수
+      async function loadComponent(url, containerId, customizeData = null) {
+        try {
+          const response = await fetch(url);
+          const html = await response.text();
+          const container = document.getElementById(containerId);
+
+          if (customizeData && typeof customizeData === 'function') {
+            // 데이터 커스터마이징이 필요한 경우
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            customizeData(doc);
+            container.innerHTML = doc.body.innerHTML;
+          } else {
+            container.innerHTML = html;
+          }
+        } catch (error) {
+          console.error(`Failed to load component from ${url}:`, error);
+        }
+      }
+
+      // 컴포넌트 로드
+      document.addEventListener('DOMContentLoaded', async () => {
+        // Header 로드
+        await loadComponent('/component/header/header.html', 'header-container');
+
+        // Post Card 로드 (데이터 커스터마이징)
+        await loadComponent(
+          '/component/post-card/post-card.html',
+          'post-card-container-1',
+          doc => {
+            doc.querySelector('.post-card__title').textContent =
+              '첫 번째 게시글 제목';
+            doc.querySelector('.post-card__date').textContent =
+              '2025-10-19 12:00:00';
+            doc.querySelector('.post-card__meta').innerHTML = `
+              <span>좋아요 15</span>
+              <span>댓글 8</span>
+              <span>조회수 120</span>
+            `;
+            doc.querySelector('.nickname').textContent = '더미 작성자 1';
+          }
+        );
+
+        await loadComponent(
+          '/component/post-card/post-card.html',
+          'post-card-container-2',
+          doc => {
+            doc.querySelector('.post-card__title').textContent =
+              '두 번째 게시글 제목';
+            doc.querySelector('.post-card__date').textContent =
+              '2025-10-19 14:30:00';
+            doc.querySelector('.post-card__meta').innerHTML = `
+              <span>좋아요 0</span>
+              <span>댓글 0</span>
+              <span>조회수 5</span>
+            `;
+            doc.querySelector('.nickname').textContent = '더미 작성자 2';
+          }
+        );
+
+        // Comment 로드 (데이터 커스터마이징)
+        await loadComponent(
+          '/component/comment/comment.html',
+          'comment-container-1',
+          doc => {
+            doc.querySelector('.nickname').textContent = '더미 작성자 1';
+            doc.querySelector('.date').textContent = '2025-10-19 12:00:00';
+            doc.querySelector('.comment__content').textContent =
+              '이것은 댓글 내용입니다. 여러 줄의 텍스트가 들어갈 수 있습니다.';
+          }
+        );
+
+        await loadComponent(
+          '/component/comment/comment.html',
+          'comment-container-2',
+          doc => {
+            doc.querySelector('.nickname').textContent = '더미 작성자 2';
+            doc.querySelector('.date').textContent = '2025-10-19 13:15:00';
+            doc.querySelector('.comment__content').textContent =
+              '두 번째 댓글입니다!';
+          }
+        );
+
+        // Modal 로드 (데이터 커스터마이징)
+        await loadComponent(
+          '/component/modal/modal.html',
+          'modal-container',
+          doc => {
+            doc.getElementById('modal-title').textContent =
+              '게시글을 삭제하시겠습니까?';
+            doc.getElementById('modal-desc').textContent =
+              '삭제된 게시글은 복구할 수 없습니다.';
+          }
+        );
+      });
+
+      // Modal 제어 함수
+      function showModal() {
+        document.getElementById('modal-overlay').hidden = false;
+      }
+
+      function hideModal() {
+        document.getElementById('modal-overlay').hidden = true;
+      }
+
+      function confirmModal() {
+        alert('확인 버튼 클릭됨');
+        hideModal();
+      }
+
+      // Modal 버튼 이벤트 바인딩 (컴포넌트 로드 후)
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const cancelBtn = document.getElementById('modal-cancel');
+          const confirmBtn = document.getElementById('modal-confirm');
+
+          if (cancelBtn) cancelBtn.onclick = hideModal;
+          if (confirmBtn) confirmBtn.onclick = confirmModal;
+        }, 100);
+      });
+    </script>
+  </body>
+</html>

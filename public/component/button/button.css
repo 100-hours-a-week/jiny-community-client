@@ -1,0 +1,30 @@
+.btn {
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.6rem 1.2rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn--primary {
+  background-color: #aca0eb;
+  color: white;
+}
+.btn--primary:hover {
+  background-color: #7f6aee;
+}
+
+.btn--black {
+  background-color: #000;
+  color: #fff;
+}
+.btn--outline {
+  border: 1px solid #7f6aee;
+  color: #7f6aee;
+  background: transparent;
+}
+.btn--danger {
+  background-color: #e64b3c;
+  color: white;
+}

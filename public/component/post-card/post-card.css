@@ -1,0 +1,39 @@
+.post-card {
+  width: 592px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  background: #fff;
+  margin-bottom: 1rem;
+}
+
+.post-card__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.post-card__title {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.post-card__meta {
+  font-size: 0.85rem;
+  color: #555;
+  display: flex;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.post-card__author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.post-card__author img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
