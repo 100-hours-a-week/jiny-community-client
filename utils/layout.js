@@ -16,6 +16,12 @@ export async function loadHeader() {
 
     const html = await response.text();
     container.innerHTML = html;
+
+    // 헤더 이벤트 리스너 초기화
+    const { initHeaderEvents } = await import(
+      '/component/header/header.js'
+    );
+    initHeaderEvents();
   } catch (error) {
     console.error('Failed to load header:', error);
   }
