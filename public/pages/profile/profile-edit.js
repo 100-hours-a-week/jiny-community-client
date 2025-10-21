@@ -40,6 +40,12 @@ function initEventListeners() {
   imageInput.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
+      // TODO: 이미지 파일 타입 검증 추가 필요
+      // - 허용 타입: image/jpeg, image/png, image/gif, image/webp 등
+      // - 비이미지 파일(PDF, 실행 파일 등) 업로드 방지
+      // - 파일 크기 제한 추가 (예: 5MB)
+      // 예시: if (!file.type.startsWith('image/')) { showError(...); return; }
+
       const reader = new FileReader();
       reader.onload = e => {
         previewImage.src = e.target.result;
@@ -106,7 +112,20 @@ function initEventListeners() {
 
     if (!isValid) return;
 
-    // TODO: API 호출
+    // TODO: 프로필 이미지 API 구현 후 추가 필요
+    // 현재는 닉네임과 비밀번호만 전송
+    //
+    // 이미지 업로드 구현 시 주의사항:
+    // 1. FormData 사용하여 파일 전송
+    //    예: const formData = new FormData();
+    //        formData.append('nickname', nickname);
+    //        formData.append('profileImage', imageInput.files[0]);
+    //
+    // 2. Content-Type을 'multipart/form-data'로 설정 (fetch 사용 시 자동)
+    //
+    // 3. 이미지 파일 포함 여부 확인
+    //    예: if (imageInput.files[0]) { formData.append('profileImage', imageInput.files[0]); }
+
     const updateData = {
       nickname,
     };
