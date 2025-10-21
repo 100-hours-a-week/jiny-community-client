@@ -40,5 +40,5 @@ coverage/
 # Claude Code
 .claude/
 
-# Document
+# Documentation
 docs/
