@@ -127,16 +127,6 @@
   color: #d32f2f;
 }
 
-/* 회원 탈퇴 모달 커스터마이징 */
-.modal__title.delete-warning {
-  color: #d32f2f;
-}
-
-.modal__desc.delete-warning {
-  text-align: left;
-  line-height: 1.6;
-}
-
 /* 반응형 */
 @media (max-width: 768px) {
   .profile-container {

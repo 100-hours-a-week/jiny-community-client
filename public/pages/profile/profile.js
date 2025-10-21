@@ -53,15 +53,11 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 // 회원 탈퇴 버튼
 document.getElementById('deleteAccountBtn').addEventListener('click', () => {
   const warningMessage = `
-    정말로 탈퇴하시겠습니까?<br><br>
-    작성한 게시물과 댓글은 삭제됩니다.
+    정말로 탈퇴하시겠습니까?<br>작성한 게시물과 댓글은 삭제됩니다.
   `;
 
   openModal('회원 탈퇴', warningMessage, handleDeleteAccount, {
     confirmText: '확인',
-    confirmColor: '#d32f2f',
-    titleClass: 'delete-warning',
-    descClass: 'delete-warning',
   });
 });
 
