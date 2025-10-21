@@ -1,5 +1,11 @@
 /* Global Styles - 전역 스타일 */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   /* Colors */
   --color-primary: #7f6aee;
@@ -42,6 +48,11 @@ body {
   color: var(--color-text);
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 #app {
   display: flex;
   flex-direction: column;

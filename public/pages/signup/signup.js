@@ -158,7 +158,7 @@ signupForm.addEventListener('submit', async e => {
   submitButton.disabled = true;
 
   // TODO: API 호출
-  console.log('회원가입 시도:', { email, password, nickname });
+  console.log('회원가입 시도:', { email, nickname });
 
   // 임시: 회원가입 성공 시뮬레이션
   const signupSuccess = true; // TODO: 실제 API 응답으로 대체
