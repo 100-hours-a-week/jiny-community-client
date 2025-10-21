@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>프로필 - 아무 말 대잔치</title>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="/component/header/header.css" />
+    <link rel="stylesheet" href="/component/footer/footer.css" />
+    <link rel="stylesheet" href="/component/button/button.css" />
+    <link rel="stylesheet" href="/component/modal/modal.css" />
+
+    <!-- Page Styles -->
+    <link rel="stylesheet" href="profile.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <div id="header-container"></div>
+
+      <!-- Main Content -->
+      <main class="profile-container" id="main-content">
+        <div class="profile-card">
+        <!-- 프로필 이미지 섹션 -->
+        <div class="profile-image-section">
+          <img
+            src="/assets/icon/profile_default.jpg"
+            alt="프로필 이미지"
+            class="profile-image"
+            id="profileImage"
+          />
+          <button class="btn btn--outline image-change-btn" id="imageChangeBtn">
+            이미지 변경
+          </button>
+        </div>
+
+        <!-- 프로필 정보 섹션 -->
+        <div class="profile-info-section">
+          <div class="info-row">
+            <label class="info-label">이메일</label>
+            <p class="info-value" id="userEmail">user@example.com</p>
+          </div>
+
+          <div class="info-row">
+            <label class="info-label">닉네임</label>
+            <p class="info-value" id="userNickname">사용자 닉네임</p>
+          </div>
+
+          <div class="info-row">
+            <label class="info-label">가입일</label>
+            <p class="info-value" id="joinDate">2025-01-15</p>
+          </div>
+        </div>
+
+        <!-- 액션 버튼 -->
+        <div class="profile-actions">
+          <button
+            class="btn btn--primary"
+            onclick="location.href='profile-edit.html'"
+          >
+            프로필 수정
+          </button>
+          <button class="btn btn--outline" id="logoutBtn">로그아웃</button>
+        </div>
+
+        <!-- 회원 탈퇴 섹션 -->
+        <div class="account-delete-section">
+          <button class="delete-account-btn" id="deleteAccountBtn">
+            회원 탈퇴
+          </button>
+        </div>
+      </div>
+
+      <!-- 내가 작성한 게시글 섹션 -->
+      <div class="my-posts-section">
+        <h2 class="section-title">내가 작성한 게시글</h2>
+        <div class="posts-list" id="postsList">
+          <!-- 게시글 목록이 동적으로 추가됨 -->
+          <p class="empty-message">작성한 게시글이 없습니다.</p>
+        </div>
+      </div>
+      </main>
+
+      <!-- Footer -->
+      <div id="footer-container"></div>
+
+      <!-- Modal -->
+      <div id="modal-container"></div>
+    </div>
+
+    <script type="module" src="profile.js"></script>
+  </body>
+</html>
