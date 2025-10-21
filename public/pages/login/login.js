@@ -87,10 +87,10 @@ loginForm.addEventListener('submit', async e => {
   const loginSuccess = true; // TODO: 실제 API 응답으로 대체
 
   if (loginSuccess) {
-    // 유효성 검사 통과 시 버튼 색상 변경
     changeButtonColor();
+    console.log('로그인 시도:', { email });
 
-    // 3초 후 페이지 이동
+    // 1초 후 페이지 이동
     setTimeout(() => {
       // TODO: 백엔드 연동 후 post 목록 페이지로 이동
       window.location.href = '/pages/home/home.html';

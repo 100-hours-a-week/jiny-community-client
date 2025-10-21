@@ -168,10 +168,10 @@ signupForm.addEventListener('submit', async e => {
       // 유효성 검사 통과 시 버튼 색상 변경
       changeButtonColor();
 
-      // 3초 후 로그인 페이지로 이동
+      // 1초 후 로그인 페이지로 이동
       setTimeout(() => {
         window.location.href = '/pages/login/login.html';
-      }, 3000);
+      }, 1000);
     } else {
       throw new Error('signup_failed');
     }
