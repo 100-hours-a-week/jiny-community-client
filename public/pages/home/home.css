@@ -1,0 +1,78 @@
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Hero Section */
+.home-hero {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  margin-bottom: 3rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.hero-desc {
+  font-size: 1.2rem;
+  color: var(--color-gray-400);
+}
+
+/* Posts Section */
+.posts-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--color-text);
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-gray-400);
+  background: white;
+  border-radius: 8px;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 1rem;
+  }
+
+  .home-hero {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+}
