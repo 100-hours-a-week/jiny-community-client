@@ -14,17 +14,43 @@
 .btn--primary:hover {
   background-color: #7f6aee;
 }
+.btn--primary:focus-visible {
+  outline: 2px solid #7f6aee;
+  outline-offset: 2px;
+}
 
 .btn--black {
   background-color: #000;
   color: #fff;
+}
+.btn--black:hover {
+  background-color: #333;
+}
+.btn--black:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 .btn--outline {
   border: 1px solid #7f6aee;
   color: #7f6aee;
   background: transparent;
 }
+.btn--outline:hover {
+  background-color: #7f6aee;
+  color: white;
+}
+.btn--outline:focus-visible {
+  outline: 2px solid #7f6aee;
+  outline-offset: 2px;
+}
 .btn--danger {
   background-color: #e64b3c;
   color: white;
+}
+.btn--danger:hover {
+  background-color: #d63a2a;
+}
+.btn--danger:focus-visible {
+  outline: 2px solid #e64b3c;
+  outline-offset: 2px;
 }
