@@ -35,34 +35,38 @@ async function handleDeleteAccount() {
   }
 }
 
-// 이미지 변경 버튼
-document.getElementById('imageChangeBtn').addEventListener('click', () => {
-  // TODO: 이미지 업로드 기능 구현
-  alert('이미지 변경 기능은 추후 구현 예정입니다.');
-});
-
-// 로그아웃 버튼
-document.getElementById('logoutBtn').addEventListener('click', () => {
-  if (confirm('로그아웃 하시겠습니까?')) {
-    // TODO: 로그아웃 API 호출
-    localStorage.removeItem('token');
-    window.location.href = '/pages/login/login.html';
-  }
-});
-
-// 회원 탈퇴 버튼
-document.getElementById('deleteAccountBtn').addEventListener('click', () => {
-  const warningMessage = `
-    정말로 탈퇴하시겠습니까?<br>작성한 게시물과 댓글은 삭제됩니다.
-  `;
-
-  openModal('회원 탈퇴', warningMessage, handleDeleteAccount, {
-    confirmText: '확인',
+// 이벤트 리스너 등록
+function initEventListeners() {
+  // 이미지 변경 버튼
+  document.getElementById('imageChangeBtn').addEventListener('click', () => {
+    // TODO: 이미지 업로드 기능 구현
+    alert('이미지 변경 기능은 추후 구현 예정입니다.');
   });
-});
+
+  // 로그아웃 버튼
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    if (confirm('로그아웃 하시겠습니까?')) {
+      // TODO: 로그아웃 API 호출
+      localStorage.removeItem('token');
+      window.location.href = '/pages/login/login.html';
+    }
+  });
+
+  // 회원 탈퇴 버튼
+  document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+    const warningMessage = `
+      정말로 탈퇴하시겠습니까?<br>작성한 게시물과 댓글은 삭제됩니다.
+    `;
+
+    openModal('회원 탈퇴', warningMessage, handleDeleteAccount, {
+      confirmText: '확인',
+    });
+  });
+}
 
 // 페이지 로드 시 실행
 document.addEventListener('DOMContentLoaded', async () => {
   await loadLayout();
   loadProfile();
+  initEventListeners();
 });
