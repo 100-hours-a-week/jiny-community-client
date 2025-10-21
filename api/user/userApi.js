@@ -21,11 +21,19 @@ export async function deleteAccount() {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || '회원 탈퇴에 실패했습니다.');
+      let errorMessage = '회원 탈퇴에 실패했습니다.';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (e) {
+        // JSON 파싱 실패 시 기본 메시지 사용
+      }
+      throw new Error(errorMessage);
     }
 
-    return await response.json();
+    const result = await response.json();
+    localStorage.removeItem('token');
+    return result;
   } catch (error) {
     console.error('회원 탈퇴 API 에러:', error);
     throw error;
@@ -53,8 +61,14 @@ export async function getUserInfo() {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || '사용자 정보 조회에 실패했습니다.');
+      let errorMessage = '사용자 정보 조회에 실패했습니다.';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+      } catch (e) {
+        // JSON 파싱 실패 시 기본 메시지 사용
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();
