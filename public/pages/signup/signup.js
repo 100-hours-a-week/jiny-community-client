@@ -157,23 +157,44 @@ signupForm.addEventListener('submit', async e => {
   // 버튼 비활성화 (중복 클릭 방지)
   submitButton.disabled = true;
 
-  // TODO: API 호출
-  console.log('회원가입 시도:', { email, nickname });
+  try {
+    // TODO: API 호출
+    console.log('회원가입 시도:', { email, nickname });
 
-  // 임시: 회원가입 성공 시뮬레이션
-  const signupSuccess = true; // TODO: 실제 API 응답으로 대체
+    // 임시: 회원가입 성공 시뮬레이션
+    const signupSuccess = true; // TODO: 실제 API 응답으로 대체
 
-  if (signupSuccess) {
-    // 유효성 검사 통과 시 버튼 색상 변경
-    changeButtonColor();
+    if (signupSuccess) {
+      // 유효성 검사 통과 시 버튼 색상 변경
+      changeButtonColor();
 
-    // 3초 후 로그인 페이지로 이동
-    setTimeout(() => {
-      window.location.href = '/pages/login/login.html';
-    }, 3000);
-  } else {
-    // 회원가입 실패 시
-    showError(emailError, '이미 존재하는 이메일입니다.');
+      // 3초 후 로그인 페이지로 이동
+      setTimeout(() => {
+        window.location.href = '/pages/login/login.html';
+      }, 3000);
+    } else {
+      throw new Error('signup_failed');
+    }
+  } catch (error) {
+    // 백엔드 에러 코드에 따라 적절한 필드에 메시지 표시
+    const errorCode = error.code || error.message || '';
+
+    switch (errorCode) {
+      case 'email_already_exists':
+        showError(emailError, '이미 존재하는 이메일입니다.');
+        break;
+      case 'nickname_already_exists':
+        showError(nicknameError, '이미 사용 중인 닉네임입니다.');
+        break;
+      case 'invalid_request':
+        showError(emailError, '입력 정보를 확인해주세요.');
+        break;
+      default:
+        // 일반적인 에러
+        showError(emailError, '회원가입에 실패했습니다. 다시 시도해주세요.');
+    }
+
+    // 버튼 다시 활성화
     submitButton.disabled = false;
   }
 });
