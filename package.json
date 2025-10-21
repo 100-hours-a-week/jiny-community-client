@@ -4,7 +4,7 @@
   "description": "KTB Community Web Application",
   "scripts": {
     "start": "npm run dev",
-    "dev": "live-server public/ --port=3000 --host=localhost",
+    "dev": "live-server public/ --port=3000 --host=localhost --mount=/api:api --mount=/utils:utils",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
