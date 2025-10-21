@@ -37,6 +37,11 @@ async function handleDeleteAccount() {
 
 // 이벤트 리스너 등록
 function initEventListeners() {
+  // 프로필 수정 버튼
+  document.getElementById('editProfileBtn').addEventListener('click', () => {
+    window.location.href = '/pages/profile/profile-edit.html';
+  });
+
   // 이미지 변경 버튼
   document.getElementById('imageChangeBtn').addEventListener('click', () => {
     // TODO: 이미지 업로드 기능 구현
@@ -48,6 +53,7 @@ function initEventListeners() {
     if (confirm('로그아웃 하시겠습니까?')) {
       // TODO: 로그아웃 API 호출
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       window.location.href = '/pages/login/login.html';
     }
   });

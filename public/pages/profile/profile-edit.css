@@ -54,6 +54,10 @@
   padding: 0.5rem 1rem;
 }
 
+.visually-hidden {
+  display: none;
+}
+
 /* 비밀번호 변경 섹션 */
 .password-section {
   padding-top: 1.5rem;
