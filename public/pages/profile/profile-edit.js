@@ -26,6 +26,7 @@ function initEventListeners() {
   const imageInput = document.getElementById('imageInput');
   const previewImage = document.getElementById('previewImage');
   const removeImageBtn = document.getElementById('removeImageBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
   const nicknameInput = document.getElementById('nickname');
   const currentPasswordInput = document.getElementById('currentPassword');
   const newPasswordInput = document.getElementById('newPassword');
@@ -35,6 +36,11 @@ function initEventListeners() {
   const currentPasswordError = document.getElementById('currentPasswordError');
   const newPasswordError = document.getElementById('newPasswordError');
   const newPasswordConfirmError = document.getElementById('newPasswordConfirmError');
+
+  // 취소 버튼
+  cancelBtn.addEventListener('click', () => {
+    history.back();
+  });
 
   // 이미지 미리보기
   imageInput.addEventListener('change', e => {
