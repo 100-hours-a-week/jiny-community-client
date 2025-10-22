@@ -18,9 +18,7 @@ export async function loadHeader() {
     container.innerHTML = html;
 
     // 헤더 이벤트 리스너 초기화
-    const { initHeaderEvents } = await import(
-      '/component/header/header.js'
-    );
+    const { initHeaderEvents } = await import('/component/header/header.js');
     initHeaderEvents();
   } catch (error) {
     console.error('Failed to load header:', error);
@@ -70,12 +68,20 @@ export async function loadLayout() {
   await Promise.all([loadHeader(), loadFooter(), loadModal()]);
 }
 
+// 모달 이벤트 핸들러 저장소 (재사용 및 정리를 위해)
+let currentModalHandlers = null;
+
 /**
  * 모달 열기 유틸리티
  * @param {string} title - 모달 제목
- * @param {string} description - 모달 설명 (HTML 지원)
+ * @param {string} description - 모달 설명
  * @param {Function} onConfirm - 확인 버튼 클릭 시 콜백
  * @param {Object} options - 추가 옵션
+ * @param {string} options.confirmText - 확인 버튼 텍스트
+ * @param {string} options.confirmColor - 확인 버튼 배경색
+ *
+ * @example
+ * openModal('알림', '게시글이 삭제되었습니다.', () => {});
  */
 export function openModal(title, description, onConfirm, options = {}) {
   const modalOverlay = document.getElementById('modal-overlay');
@@ -90,7 +96,7 @@ export function openModal(title, description, onConfirm, options = {}) {
   }
 
   modalTitle.textContent = title;
-  modalDesc.innerHTML = description;
+  modalDesc.textContent = description;
 
   // 옵션 적용
   if (options.confirmText) {
@@ -117,32 +123,61 @@ export function openModal(title, description, onConfirm, options = {}) {
     modalDesc.className = 'modal__desc';
   }
 
-  modalOverlay.removeAttribute('hidden');
+  // 기존 이벤트 리스너 정리
+  cleanupModalHandlers();
 
-  // 기존 이벤트 리스너 제거를 위해 복제
-  const newConfirmBtn = confirmBtn.cloneNode(true);
-  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-
-  const newCancelBtn = cancelBtn.cloneNode(true);
-  cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
-
-  // 새 이벤트 리스너 등록
-  newConfirmBtn.addEventListener('click', () => {
+  // 새 이벤트 핸들러 생성
+  const handleConfirm = () => {
     if (onConfirm) onConfirm();
     closeModal();
-  });
+  };
 
-  newCancelBtn.addEventListener('click', closeModal);
+  const handleCancel = () => {
+    closeModal();
+  };
 
-  // 모달 배경 클릭 시 닫기
   const handleOverlayClick = e => {
-    if (e.target.id === 'modal-overlay') {
+    if (e.target === modalOverlay) {
       closeModal();
-      modalOverlay.removeEventListener('click', handleOverlayClick);
     }
   };
 
+  // 이벤트 리스너 등록
+  confirmBtn.addEventListener('click', handleConfirm);
+  cancelBtn.addEventListener('click', handleCancel);
   modalOverlay.addEventListener('click', handleOverlayClick);
+
+  // 정리를 위해 현재 핸들러 저장
+  currentModalHandlers = {
+    confirmBtn,
+    cancelBtn,
+    modalOverlay,
+    handleConfirm,
+    handleCancel,
+    handleOverlayClick,
+  };
+
+  modalOverlay.removeAttribute('hidden');
+}
+
+// 모달 이벤트 핸들러 정리
+function cleanupModalHandlers() {
+  if (!currentModalHandlers) return;
+
+  const {
+    confirmBtn,
+    cancelBtn,
+    modalOverlay,
+    handleConfirm,
+    handleCancel,
+    handleOverlayClick,
+  } = currentModalHandlers;
+
+  confirmBtn.removeEventListener('click', handleConfirm);
+  cancelBtn.removeEventListener('click', handleCancel);
+  modalOverlay.removeEventListener('click', handleOverlayClick);
+
+  currentModalHandlers = null;
 }
 
 /**
@@ -152,5 +187,6 @@ export function closeModal() {
   const modalOverlay = document.getElementById('modal-overlay');
   if (modalOverlay) {
     modalOverlay.setAttribute('hidden', '');
+    cleanupModalHandlers(); // 이벤트 리스너 정리
   }
 }
