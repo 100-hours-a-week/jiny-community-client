@@ -27,6 +27,7 @@ function initEventListeners() {
   const previewImage = document.getElementById('previewImage');
   const removeImageBtn = document.getElementById('removeImageBtn');
   const cancelBtn = document.getElementById('cancelBtn');
+  const selectImageBtn = document.getElementById('selectImageBtn');
   const nicknameInput = document.getElementById('nickname');
   const currentPasswordInput = document.getElementById('currentPassword');
   const newPasswordInput = document.getElementById('newPassword');
@@ -35,7 +36,14 @@ function initEventListeners() {
   const nicknameError = document.getElementById('nicknameError');
   const currentPasswordError = document.getElementById('currentPasswordError');
   const newPasswordError = document.getElementById('newPasswordError');
-  const newPasswordConfirmError = document.getElementById('newPasswordConfirmError');
+  const newPasswordConfirmError = document.getElementById(
+    'newPasswordConfirmError'
+  );
+
+  // 이미지 선택 버튼
+  selectImageBtn.addEventListener('click', () => {
+    imageInput.click();
+  });
 
   // 취소 버튼
   cancelBtn.addEventListener('click', () => {
