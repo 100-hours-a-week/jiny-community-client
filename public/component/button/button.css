@@ -12,10 +12,10 @@
   color: white;
 }
 .btn--primary:hover {
-  background-color: #7f6aee;
+  background-color: var(--color-primary);
 }
 .btn--primary:focus-visible {
-  outline: 2px solid #7f6aee;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -31,16 +31,16 @@
   outline-offset: 2px;
 }
 .btn--outline {
-  border: 1px solid #7f6aee;
-  color: #7f6aee;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   background: transparent;
 }
 .btn--outline:hover {
-  background-color: #7f6aee;
+  background-color: var(--color-primary);
   color: white;
 }
 .btn--outline:focus-visible {
-  outline: 2px solid #7f6aee;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 .btn--danger {
