@@ -58,13 +58,19 @@
 }
 
 .signup-link {
-  color: #7f6aee;
+  color: var(--color-primary);
   font-weight: 600;
   text-decoration: none;
   font-size: 0.95rem;
 }
 
 .signup-link:hover {
+  text-decoration: underline;
+}
+
+.signup-link:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
   text-decoration: underline;
 }
 

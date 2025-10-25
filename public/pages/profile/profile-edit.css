@@ -1,0 +1,123 @@
+.edit-container {
+  max-width: 700px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.edit-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 이미지 업로드 섹션 */
+.image-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.preview-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-primary);
+}
+
+.image-upload-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.image-upload-actions .btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+/* 비밀번호 변경 섹션 */
+.password-section {
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* 폼 액션 */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.form-actions .btn {
+  flex: 1;
+  max-width: 200px;
+}
+
+/* 헬퍼 텍스트 */
+.helper-text {
+  display: none;
+}
+
+.helper-text.show {
+  display: block;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .edit-container {
+    padding: 0 1rem;
+  }
+
+  .edit-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .image-upload-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .image-upload-actions .btn {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    max-width: none;
+  }
+}

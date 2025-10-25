@@ -1,9 +1,17 @@
 /* Global Styles - 전역 스타일 */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   /* Colors */
   --color-primary: #7f6aee;
+  --color-primary-dark: #6854d8;
   --color-primary-light: #aca0eb;
+  --color-primary-shadow: rgba(127, 106, 238, 0.3);
   --color-danger: #e64b3c;
   --color-black: #000;
   --color-white: #fff;
@@ -41,6 +49,21 @@ body {
   color: var(--color-text);
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#main-content {
+  flex: 1;
+}
+
 /* 공통 레이아웃 */
 .container {
   max-width: 1200px;
@@ -71,4 +94,63 @@ body {
 }
 .mb-3 {
   margin-bottom: var(--spacing-lg);
+}
+
+/* Welcome Section (index.html) */
+.welcome-section {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.welcome-desc {
+  font-size: 1.1rem;
+  color: var(--color-gray-400);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.welcome-actions .btn {
+  min-width: 150px;
+}
+
+@media (max-width: 768px) {
+  .welcome-section {
+    margin: 2rem auto;
+    padding: 2rem 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .welcome-desc {
+    font-size: 1rem;
+  }
+
+  .welcome-actions {
+    flex-direction: column;
+  }
+
+  .welcome-actions .btn {
+    width: 100%;
+  }
 }

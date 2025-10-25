@@ -20,7 +20,7 @@
 }
 
 .input-group input:focus {
-  border-color: #7f6aee;
+  border-color: var(--color-primary);
 }
 
 .helper-text {
