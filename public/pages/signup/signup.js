@@ -1,3 +1,11 @@
+import {
+  validateEmail,
+  validatePassword,
+  validatePasswordConfirm,
+  validateNickname,
+} from '../../../utils/validation.js';
+import { showError, hideError } from '../../../utils/dom.js';
+
 // 회원가입 폼 처리
 const signupForm = document.getElementById('signupForm');
 const emailInput = document.getElementById('email');
@@ -10,109 +18,6 @@ const emailError = document.getElementById('emailError');
 const passwordError = document.getElementById('passwordError');
 const passwordConfirmError = document.getElementById('passwordConfirmError');
 const nicknameError = document.getElementById('nicknameError');
-
-// 이메일 유효성 검사
-function validateEmail(email) {
-  if (!email) {
-    return {
-      valid: false,
-      message: '이메일을 입력해주세요.',
-    };
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return {
-      valid: false,
-      message: '올바른 이메일 형식이 아닙니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 비밀번호 유효성 검사: 8-20자, 대소문자/숫자/특수문자 각 1개 이상
-function validatePassword(password) {
-  if (!password) {
-    return {
-      valid: false,
-      message: '비밀번호를 입력해주세요.',
-    };
-  }
-
-  if (password.length < 8 || password.length > 20) {
-    return {
-      valid: false,
-      message:
-        '비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.',
-    };
-  }
-
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
-    return {
-      valid: false,
-      message:
-        '비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 비밀번호 확인 유효성 검사
-function validatePasswordConfirm(password, passwordConfirm) {
-  if (!passwordConfirm) {
-    return {
-      valid: false,
-      message: '비밀번호 확인을 입력해주세요.',
-    };
-  }
-
-  if (password !== passwordConfirm) {
-    return {
-      valid: false,
-      message: '비밀번호가 일치하지 않습니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 닉네임 유효성 검사
-function validateNickname(nickname) {
-  if (!nickname) {
-    return {
-      valid: false,
-      message: '닉네임을 입력해주세요.',
-    };
-  }
-
-  if (nickname.length < 2 || nickname.length > 20) {
-    return {
-      valid: false,
-      message: '닉네임은 2자 이상 20자 이하여야 합니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 에러 메시지 표시
-function showError(element, message) {
-  element.textContent = message;
-  element.classList.add('show');
-}
-
-// 에러 메시지 숨기기
-function hideError(element) {
-  element.textContent = '';
-  element.classList.remove('show');
-}
 
 // 버튼 색상 변경
 function changeButtonColor() {

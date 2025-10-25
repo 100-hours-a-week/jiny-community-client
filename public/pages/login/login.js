@@ -1,3 +1,9 @@
+import {
+  validateEmail,
+  validatePassword,
+} from '../../../utils/validation.js';
+import { showError, hideError } from '../../../utils/dom.js';
+
 // 로그인 폼 처리
 const loginForm = document.getElementById('loginForm');
 const emailInput = document.getElementById('email');
@@ -5,76 +11,6 @@ const passwordInput = document.getElementById('password');
 const emailError = document.getElementById('emailError');
 const passwordError = document.getElementById('passwordError');
 const submitButton = loginForm.querySelector('button[type="submit"]');
-
-// 이메일 유효성 검사
-function validateEmail(email) {
-  // 빈 값 체크
-  if (!email) {
-    return {
-      valid: false,
-      message: '이메일을 입력해주세요.',
-    };
-  }
-
-  // 이메일 형식 체크 (정규식)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return {
-      valid: false,
-      message: '올바른 이메일 형식이 아닙니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 비밀번호 유효성 검사: 8-20자, 대소문자/숫자/특수문자 각 1개 이상
-function validatePassword(password) {
-  // 빈 값 체크
-  if (!password) {
-    return {
-      valid: false,
-      message: '비밀번호를 입력해주세요.',
-    };
-  }
-
-  // 길이 체크
-  if (password.length < 8 || password.length > 20) {
-    return {
-      valid: false,
-      message:
-        '비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.',
-    };
-  }
-
-  // 문자 종류 체크
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumber = /[0-9]/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-  if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
-    return {
-      valid: false,
-      message:
-        '비밀번호는 8자 이상, 20자 이하이며, 대문자, 소문자, 숫자, 특수문자를 각각 최소 1개 포함해야 합니다.',
-    };
-  }
-
-  return { valid: true };
-}
-
-// 에러 메시지 표시
-function showError(element, message) {
-  element.textContent = message;
-  element.classList.add('show');
-}
-
-// 에러 메시지 숨기기
-function hideError(element) {
-  element.textContent = '';
-  element.classList.remove('show');
-}
 
 // 버튼 색상 변경
 function changeButtonColor() {
