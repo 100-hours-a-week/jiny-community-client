@@ -1,0 +1,42 @@
+.comment {
+  width: 544px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  margin-bottom: 0.6rem;
+}
+
+.comment__author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.comment__author img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.comment__meta {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+}
+
+.comment__meta .nickname {
+  font-weight: 700;
+}
+
+.comment__content {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.comment__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
