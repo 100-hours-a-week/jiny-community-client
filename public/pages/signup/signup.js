@@ -5,6 +5,11 @@ import {
   validateNickname,
 } from '../../../utils/validation.js';
 import { showError, hideError } from '../../../utils/dom.js';
+import {
+  checkEmailAvailability,
+  checkNicknameAvailability,
+  signUp,
+} from '../../../api/user/userApi.js';
 
 // 회원가입 폼 처리
 const signupForm = document.getElementById('signupForm');
@@ -25,7 +30,7 @@ function changeButtonColor() {
 }
 
 // 이메일 입력 필드 - blur 또는 Enter 키 입력 시 유효성 검사
-emailInput.addEventListener('blur', () => {
+emailInput.addEventListener('blur', async () => {
   const email = emailInput.value.trim();
   const validation = validateEmail(email);
 
@@ -33,6 +38,17 @@ emailInput.addEventListener('blur', () => {
     showError(emailError, validation.message);
   } else {
     hideError(emailError);
+
+    if (email) {
+      try {
+        const availability = await checkEmailAvailability(email);
+        if (!availability?.available) {
+          showError(emailError, '이미 사용 중인 이메일입니다.');
+        }
+      } catch (error) {
+        console.error('이메일 중복 확인 실패:', error);
+      }
+    }
   }
 });
 
@@ -83,7 +99,7 @@ passwordConfirmInput.addEventListener('keypress', e => {
 });
 
 // 닉네임 입력 필드
-nicknameInput.addEventListener('blur', () => {
+nicknameInput.addEventListener('blur', async () => {
   const nickname = nicknameInput.value.trim();
   const validation = validateNickname(nickname);
 
@@ -91,6 +107,17 @@ nicknameInput.addEventListener('blur', () => {
     showError(nicknameError, validation.message);
   } else {
     hideError(nicknameError);
+
+    if (nickname) {
+      try {
+        const availability = await checkNicknameAvailability(nickname);
+        if (!availability?.available) {
+          showError(nicknameError, '이미 사용 중인 닉네임입니다.');
+        }
+      } catch (error) {
+        console.error('닉네임 중복 확인 실패:', error);
+      }
+    }
   }
 });
 
@@ -158,23 +185,10 @@ signupForm.addEventListener('submit', async e => {
   submitButton.disabled = true;
 
   try {
-    // TODO: API 호출
-    console.log('회원가입 시도:', { email, nickname });
+    await signUp({ email, password, nickname });
 
-    // 임시: 회원가입 성공 시뮬레이션
-    const signupSuccess = true; // TODO: 실제 API 응답으로 대체
-
-    if (signupSuccess) {
-      // 유효성 검사 통과 시 버튼 색상 변경
-      changeButtonColor();
-
-      // 1초 후 로그인 페이지로 이동
-      setTimeout(() => {
-        window.location.href = '/pages/login/login.html';
-      }, 1000);
-    } else {
-      throw new Error('signup_failed');
-    }
+    changeButtonColor();
+    window.location.href = '/pages/login/login.html';
   } catch (error) {
     // 백엔드 에러 코드에 따라 적절한 필드에 메시지 표시
     const errorCode = error.code || error.message || '';
@@ -190,8 +204,10 @@ signupForm.addEventListener('submit', async e => {
         showError(emailError, '입력 정보를 확인해주세요.');
         break;
       default:
-        // 일반적인 에러
-        showError(emailError, '회원가입에 실패했습니다. 다시 시도해주세요.');
+        showError(
+          emailError,
+          error.message || '회원가입에 실패했습니다. 다시 시도해주세요.'
+        );
     }
 
     // 버튼 다시 활성화
