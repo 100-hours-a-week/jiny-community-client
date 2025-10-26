@@ -1,0 +1,184 @@
+.post-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.post-form-wrapper {
+  background: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.post-form__title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-black);
+}
+
+/* 입력 그룹 */
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  font-weight: 700;
+  font-size: var(--font-base);
+  margin-bottom: 0.5rem;
+  color: var(--color-black);
+}
+
+.required {
+  color: var(--color-danger);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: var(--font-base);
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.input-field.error {
+  border-color: var(--color-danger);
+}
+
+.textarea-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: var(--font-base);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 200px;
+  transition: border-color 0.2s ease;
+}
+
+.textarea-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.textarea-field.error {
+  border-color: var(--color-danger);
+}
+
+.input-helper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: var(--font-sm);
+}
+
+.error-message {
+  color: var(--color-danger);
+}
+
+.char-count {
+  color: var(--color-gray-300);
+}
+
+.help-text {
+  color: var(--color-gray-300);
+}
+
+/* 이미지 업로드 */
+.image-upload-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.file-label:hover {
+  border-color: var(--color-primary);
+}
+
+.file-label span {
+  color: var(--color-gray-300);
+}
+
+.file-label.has-file span {
+  color: var(--color-black);
+}
+
+.btn--small {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-sm);
+}
+
+.image-preview {
+  display: none;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.image-preview.show {
+  display: block;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .post-form-container {
+    padding: 0 0.5rem;
+  }
+
+  .post-form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column-reverse;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+}
