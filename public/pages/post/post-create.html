@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 작성 - KTB Community</title>
+    <link rel="stylesheet" href="../../styles/reset.css" />
+    <link rel="stylesheet" href="../../styles/global.css" />
+    <link rel="stylesheet" href="../../styles/layout.css" />
+    <link rel="stylesheet" href="../../component/header/header.css" />
+    <link rel="stylesheet" href="../../component/footer/footer.css" />
+    <link rel="stylesheet" href="../../component/sidebar/sidebar.css" />
+    <link rel="stylesheet" href="../../component/button/button.css" />
+    <link rel="stylesheet" href="../../component/input/input.css" />
+    <link rel="stylesheet" href="../../component/modal/modal.css" />
+    <link rel="stylesheet" href="./post-form.css" />
+  </head>
+  <body>
+    <template id="layout-template">
+      <div class="layout__body">
+        <div id="sidebar-container" class="layout__sidebar"></div>
+        <main
+          id="main-content"
+          class="layout__content post-form-container"
+          role="main"
+          aria-labelledby="post-create-title"
+        >
+          <div class="post-form-wrapper">
+            <h1 class="post-form__title" id="post-create-title">게시글 작성</h1>
+
+            <form class="post-form" id="post-form">
+              <div class="input-group">
+                <label for="post-title" class="input-label"
+                  >제목 <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  id="post-title"
+                  class="input-field"
+                  placeholder="제목을 입력하세요 (최대 26자)"
+                  maxlength="26"
+                  required
+                />
+                <div class="input-helper">
+                  <span class="error-message" id="title-error"></span>
+                  <span class="char-count" id="title-char-count">0/26</span>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="post-content" class="input-label"
+                  >내용 <span class="required">*</span></label
+                >
+                <textarea
+                  id="post-content"
+                  class="textarea-field"
+                  placeholder="내용을 입력하세요"
+                  rows="15"
+                  required
+                ></textarea>
+                <div class="input-helper">
+                  <span class="error-message" id="content-error"></span>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="post-image" class="input-label">이미지 (선택)</label>
+                <div class="image-upload-wrapper">
+                  <input
+                    type="file"
+                    id="post-image"
+                    accept="image/*"
+                    class="file-input"
+                  />
+                  <label for="post-image" class="file-label">
+                    <span id="file-name">이미지를 선택하세요</span>
+                  </label>
+                  <button
+                    type="button"
+                    class="btn btn--outline btn--small"
+                    id="clear-image-btn"
+                    style="display: none"
+                  >
+                    삭제
+                  </button>
+                </div>
+                <div class="image-preview" id="image-preview">
+                  <img src="" alt="미리보기" id="preview-image" />
+                </div>
+                <div class="input-helper">
+                  <span class="help-text"
+                    >클릭하여 컴퓨터에서 이미지 파일을 업로드하세요.</span
+                  >
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button type="button" class="btn btn--outline" id="cancel-btn">
+                  취소
+                </button>
+                <button type="submit" class="btn btn--primary" id="submit-btn">
+                  등록
+                </button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
+    </template>
+
+    <script type="module" src="./post-create.js"></script>
+  </body>
+</html>
