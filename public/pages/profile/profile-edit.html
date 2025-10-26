@@ -4,134 +4,123 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>프로필 수정 - 아무 말 대잔치</title>
-
-    <!-- Global Styles -->
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/global.css" />
-
-    <!-- Component Styles -->
+    <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/component/header/header.css" />
     <link rel="stylesheet" href="/component/footer/footer.css" />
+    <link rel="stylesheet" href="/component/sidebar/sidebar.css" />
     <link rel="stylesheet" href="/component/input/input.css" />
     <link rel="stylesheet" href="/component/button/button.css" />
     <link rel="stylesheet" href="/component/modal/modal.css" />
-
-    <!-- Page Styles -->
     <link rel="stylesheet" href="profile-edit.css" />
   </head>
-
   <body>
-    <div id="app">
-      <!-- Header -->
-      <div id="header-container"></div>
+    <template id="layout-template">
+      <div class="layout__body">
+        <div id="sidebar-container" class="layout__sidebar"></div>
+        <main
+          id="main-content"
+          class="layout__content edit-container"
+          role="main"
+          aria-labelledby="profile-edit-title"
+        >
+          <div class="edit-card">
+            <h1 class="edit-title" id="profile-edit-title">프로필 수정</h1>
 
-      <!-- Main Content -->
-      <main class="edit-container" id="main-content">
-        <div class="edit-card">
-          <h1 class="edit-title">프로필 수정</h1>
-
-          <form class="edit-form" id="editForm">
-            <!-- 프로필 이미지 -->
-            <div class="image-upload-section">
-              <img
-                src="/assets/icon/profile_default.jpg"
-                alt="프로필 이미지"
-                class="preview-image"
-                id="previewImage"
-              />
-              <div class="image-upload-actions">
-                <input
-                  type="file"
-                  id="imageInput"
-                  accept="image/*"
-                  class="visually-hidden"
+            <form class="edit-form" id="editForm">
+              <div class="image-upload-section">
+                <img
+                  src="/assets/icon/profile_default.jpg"
+                  alt="프로필 이미지"
+                  class="preview-image"
+                  id="previewImage"
                 />
-                <button
-                  type="button"
-                  id="selectImageBtn"
-                  class="btn btn--outline"
-                >
-                  이미지 선택
+                <div class="image-upload-actions">
+                  <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    class="visually-hidden"
+                  />
+                  <button
+                    type="button"
+                    id="selectImageBtn"
+                    class="btn btn--outline"
+                  >
+                    이미지 선택
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn--outline btn--danger"
+                    id="removeImageBtn"
+                  >
+                    이미지 제거
+                  </button>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="nickname">닉네임 *</label>
+                <input
+                  type="text"
+                  id="nickname"
+                  name="nickname"
+                  placeholder="닉네임을 입력하세요"
+                  value="사용자 닉네임"
+                  required
+                />
+                <span class="helper-text" id="nicknameError"></span>
+              </div>
+
+              <div class="password-section">
+                <h3 class="section-subtitle">비밀번호 변경 (선택사항)</h3>
+
+                <div class="input-group">
+                  <label for="currentPassword">현재 비밀번호</label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    placeholder="현재 비밀번호를 입력하세요"
+                  />
+                  <span class="helper-text" id="currentPasswordError"></span>
+                </div>
+
+                <div class="input-group">
+                  <label for="newPassword">새 비밀번호</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    placeholder="새 비밀번호를 입력하세요 (8자 이상)"
+                  />
+                  <span class="helper-text" id="newPasswordError"></span>
+                </div>
+
+                <div class="input-group">
+                  <label for="newPasswordConfirm">새 비밀번호 확인</label>
+                  <input
+                    type="password"
+                    id="newPasswordConfirm"
+                    name="newPasswordConfirm"
+                    placeholder="새 비밀번호를 다시 입력하세요"
+                  />
+                  <span class="helper-text" id="newPasswordConfirmError"></span>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn--outline" id="cancelBtn">
+                  취소
                 </button>
-                <button
-                  type="button"
-                  class="btn btn--outline btn--danger"
-                  id="removeImageBtn"
-                >
-                  이미지 제거
-                </button>
+                <button type="submit" class="btn btn--primary">저장</button>
               </div>
-            </div>
-
-            <!-- 닉네임 -->
-            <div class="input-group">
-              <label for="nickname">닉네임 *</label>
-              <input
-                type="text"
-                id="nickname"
-                name="nickname"
-                placeholder="닉네임을 입력하세요"
-                value="사용자 닉네임"
-                required
-              />
-              <span class="helper-text" id="nicknameError"></span>
-            </div>
-
-            <!-- 비밀번호 변경 (선택사항) -->
-            <div class="password-section">
-              <h3 class="section-subtitle">비밀번호 변경 (선택사항)</h3>
-
-              <div class="input-group">
-                <label for="currentPassword">현재 비밀번호</label>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  name="currentPassword"
-                  placeholder="현재 비밀번호를 입력하세요"
-                />
-                <span class="helper-text" id="currentPasswordError"></span>
-              </div>
-
-              <div class="input-group">
-                <label for="newPassword">새 비밀번호</label>
-                <input
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                  placeholder="새 비밀번호를 입력하세요 (8자 이상)"
-                />
-                <span class="helper-text" id="newPasswordError"></span>
-              </div>
-
-              <div class="input-group">
-                <label for="newPasswordConfirm">새 비밀번호 확인</label>
-                <input
-                  type="password"
-                  id="newPasswordConfirm"
-                  name="newPasswordConfirm"
-                  placeholder="새 비밀번호를 다시 입력하세요"
-                />
-                <span class="helper-text" id="newPasswordConfirmError"></span>
-              </div>
-            </div>
-
-            <!-- 액션 버튼 -->
-            <div class="form-actions">
-              <button type="button" class="btn btn--outline" id="cancelBtn">
-                취소
-              </button>
-              <button type="submit" class="btn btn--primary">저장</button>
-            </div>
-          </form>
-        </div>
-      </main>
-
-      <!-- Footer -->
-      <div id="footer-container"></div>
-
-      <!-- Modal -->
-      <div id="modal-container"></div>
-    </div>
+            </form>
+          </div>
+        </main>
+      </div>
+    </template>
 
     <script type="module" src="profile-edit.js"></script>
   </body>

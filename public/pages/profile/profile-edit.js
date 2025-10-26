@@ -1,12 +1,24 @@
-import { loadLayout } from '../../../utils/layout.js';
+import { uploadImage } from '../../../api/image/imageApi.js';
+import {
+  changePassword,
+  getCurrentUser,
+  updateProfile,
+} from '../../../api/user/userApi.js';
+import { renderPageLayout } from '../../../utils/layoutPage.js';
 
-// 유효성 검사 함수
+const state = {
+  currentUser: null,
+  newImageFile: null,
+  removeImage: false,
+  isSubmitting: false,
+};
+
 function validateNickname(nickname) {
-  return nickname.length >= 2 && nickname.length <= 20;
+  return typeof nickname === 'string' && nickname.length >= 2 && nickname.length <= 10;
 }
 
 function validatePassword(password) {
-  return password.length >= 8;
+  return typeof password === 'string' && password.length >= 8 && password.length <= 20;
 }
 
 function showError(element, message) {
@@ -19,15 +31,79 @@ function hideError(element) {
   element.classList.remove('show');
 }
 
-// 이벤트 리스너 및 초기화
-function initEventListeners() {
-  // DOM 요소
-  const editForm = document.getElementById('editForm');
-  const imageInput = document.getElementById('imageInput');
+function setProfilePreview(url) {
   const previewImage = document.getElementById('previewImage');
-  const removeImageBtn = document.getElementById('removeImageBtn');
-  const cancelBtn = document.getElementById('cancelBtn');
+  previewImage.src = url || '/assets/icon/profile_default.jpg';
+}
+
+function bindImageInput() {
+  const imageInput = document.getElementById('imageInput');
   const selectImageBtn = document.getElementById('selectImageBtn');
+  const removeImageBtn = document.getElementById('removeImageBtn');
+
+  selectImageBtn.addEventListener('click', () => imageInput.click());
+
+  imageInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드할 수 있습니다.');
+      event.target.value = '';
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('이미지 파일은 최대 10MB까지 업로드할 수 있습니다.');
+      event.target.value = '';
+      return;
+    }
+
+    state.newImageFile = file;
+    state.removeImage = false;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setProfilePreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  removeImageBtn.addEventListener('click', () => {
+    state.newImageFile = null;
+    state.removeImage = true;
+    imageInput.value = '';
+    setProfilePreview(null);
+  });
+}
+
+async function loadInitialData() {
+  try {
+    state.currentUser = await getCurrentUser();
+    if (!state.currentUser) {
+      throw new Error('사용자 정보를 불러오지 못했습니다.');
+    }
+
+    document.getElementById('nickname').value =
+      state.currentUser.nickname ?? '';
+    setProfilePreview(state.currentUser.profileImageUrl);
+  } catch (error) {
+    if (error.status === 401) {
+      window.location.href = '/pages/login/login.html';
+      return;
+    }
+
+    alert(error.message || '사용자 정보를 불러오는 데 실패했습니다.');
+    window.location.href = '/pages/profile/profile.html';
+  }
+}
+
+async function handleSubmit(event) {
+  event.preventDefault();
+  if (state.isSubmitting) return;
+
   const nicknameInput = document.getElementById('nickname');
   const currentPasswordInput = document.getElementById('currentPassword');
   const newPasswordInput = document.getElementById('newPassword');
@@ -40,126 +116,128 @@ function initEventListeners() {
     'newPasswordConfirmError'
   );
 
-  // 이미지 선택 버튼
-  selectImageBtn.addEventListener('click', () => {
-    imageInput.click();
-  });
+  hideError(nicknameError);
+  hideError(currentPasswordError);
+  hideError(newPasswordError);
+  hideError(newPasswordConfirmError);
 
-  // 취소 버튼
-  cancelBtn.addEventListener('click', () => {
-    history.back();
-  });
+  const nickname = nicknameInput.value.trim();
+  const currentPassword = currentPasswordInput.value;
+  const newPassword = newPasswordInput.value;
+  const newPasswordConfirm = newPasswordConfirmInput.value;
 
-  // 이미지 미리보기
-  imageInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (file) {
-      // TODO: 이미지 파일 타입 검증 추가 필요
-      // - 허용 타입: image/jpeg, image/png, image/gif, image/webp 등
-      // - 비이미지 파일(PDF, 실행 파일 등) 업로드 방지
-      // - 파일 크기 제한 추가 (예: 5MB)
-      // 예시: if (!file.type.startsWith('image/')) { showError(...); return; }
+  let isValid = true;
 
-      const reader = new FileReader();
-      reader.onload = e => {
-        previewImage.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+  if (!validateNickname(nickname)) {
+    showError(nicknameError, '닉네임은 2자 이상 10자 이하로 입력해주세요.');
+    isValid = false;
+  }
 
-  // 이미지 제거
-  removeImageBtn.addEventListener('click', () => {
-    previewImage.src = '/assets/icon/profile_default.jpg';
-    imageInput.value = '';
-  });
+  const wantsPasswordChange =
+    currentPassword.length > 0 ||
+    newPassword.length > 0 ||
+    newPasswordConfirm.length > 0;
 
-  // 폼 제출
-  editForm.addEventListener('submit', async e => {
-    e.preventDefault();
-
-    // 에러 메시지 초기화
-    hideError(nicknameError);
-    hideError(currentPasswordError);
-    hideError(newPasswordError);
-    hideError(newPasswordConfirmError);
-
-    const nickname = nicknameInput.value.trim();
-    const currentPassword = currentPasswordInput.value;
-    const newPassword = newPasswordInput.value;
-    const newPasswordConfirm = newPasswordConfirmInput.value;
-
-    let isValid = true;
-
-    // 닉네임 검증
-    if (!nickname) {
-      showError(nicknameError, '닉네임을 입력해주세요.');
-      isValid = false;
-    } else if (!validateNickname(nickname)) {
-      showError(nicknameError, '닉네임은 2자 이상 20자 이하여야 합니다.');
+  if (wantsPasswordChange) {
+    if (!currentPassword) {
+      showError(currentPasswordError, '현재 비밀번호를 입력해주세요.');
       isValid = false;
     }
 
-    // 비밀번호 변경하는 경우에만 검증
-    if (currentPassword || newPassword || newPasswordConfirm) {
-      if (!currentPassword) {
-        showError(currentPasswordError, '현재 비밀번호를 입력해주세요.');
-        isValid = false;
-      }
-
-      if (!newPassword) {
-        showError(newPasswordError, '새 비밀번호를 입력해주세요.');
-        isValid = false;
-      } else if (!validatePassword(newPassword)) {
-        showError(newPasswordError, '비밀번호는 8자 이상이어야 합니다.');
-        isValid = false;
-      }
-
-      if (!newPasswordConfirm) {
-        showError(newPasswordConfirmError, '새 비밀번호 확인을 입력해주세요.');
-        isValid = false;
-      } else if (newPassword !== newPasswordConfirm) {
-        showError(newPasswordConfirmError, '비밀번호가 일치하지 않습니다.');
-        isValid = false;
-      }
+    if (!validatePassword(newPassword)) {
+      showError(
+        newPasswordError,
+        '새 비밀번호는 8~20자 영문, 숫자, 특수문자 조합을 권장합니다.'
+      );
+      isValid = false;
     }
 
-    if (!isValid) return;
+    if (newPassword !== newPasswordConfirm) {
+      showError(newPasswordConfirmError, '새 비밀번호가 일치하지 않습니다.');
+      isValid = false;
+    }
+  }
 
-    // TODO: 프로필 이미지 API 구현 후 추가 필요
-    // 현재는 닉네임과 비밀번호만 전송
-    //
-    // 이미지 업로드 구현 시 주의사항:
-    // 1. FormData 사용하여 파일 전송
-    //    예: const formData = new FormData();
-    //        formData.append('nickname', nickname);
-    //        formData.append('profileImage', imageInput.files[0]);
-    //
-    // 2. Content-Type을 'multipart/form-data'로 설정 (fetch 사용 시 자동)
-    //
-    // 3. 이미지 파일 포함 여부 확인
-    //    예: if (imageInput.files[0]) { formData.append('profileImage', imageInput.files[0]); }
+  if (!isValid) {
+    return;
+  }
 
-    const updateData = {
-      nickname,
-    };
+  const submitBtn = document.querySelector('#editForm button[type="submit"]');
 
-    if (currentPassword && newPassword) {
-      updateData.currentPassword = currentPassword;
-      updateData.newPassword = newPassword;
+  try {
+    state.isSubmitting = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = '저장 중...';
+
+    const profilePayload = {};
+
+    if (state.currentUser && state.currentUser.nickname !== nickname) {
+      profilePayload.nickname = nickname;
     }
 
-    console.log('프로필 수정 데이터:', updateData);
+    if (state.newImageFile) {
+      const uploadResult = await uploadImage({
+        file: state.newImageFile,
+        type: 'PROFILE',
+      });
 
-    // 임시: 수정 완료 후 프로필 페이지로 이동
-    alert('프로필 수정 기능은 백엔드 연동 후 구현됩니다.');
-    // window.location.href = '/pages/profile/profile.html';
-  });
+      if (uploadResult?.imageId !== undefined) {
+        profilePayload.profileImageId = uploadResult.imageId;
+      }
+    } else if (state.removeImage) {
+      profilePayload.profileImageId = null;
+    }
+
+    if (Object.keys(profilePayload).length > 0) {
+      await updateProfile(profilePayload);
+    }
+
+    if (wantsPasswordChange) {
+      await changePassword({
+        currentPassword,
+        newPassword,
+      });
+    }
+
+    alert('프로필이 수정되었습니다.');
+    window.location.href = '/pages/profile/profile.html';
+  } catch (error) {
+    if (error.errors) {
+      if (error.errors.nickname) {
+        showError(nicknameError, error.errors.nickname);
+      }
+      if (error.errors.currentPassword) {
+        showError(currentPasswordError, error.errors.currentPassword);
+      }
+      if (error.errors.newPassword) {
+        showError(newPasswordError, error.errors.newPassword);
+      }
+    } else {
+      alert(error.message || '프로필 수정에 실패했습니다.');
+    }
+  } finally {
+    state.isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '저장';
+    }
+  }
 }
 
-// 페이지 로드 시 실행
+function initEventListeners() {
+  document
+    .getElementById('cancelBtn')
+    .addEventListener('click', () => history.back());
+
+  document
+    .getElementById('editForm')
+    .addEventListener('submit', handleSubmit);
+
+  bindImageInput();
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadLayout();
+  await renderPageLayout('layout-template');
+  await loadInitialData();
   initEventListeners();
-  // TODO: 현재 사용자 정보 로드하여 폼에 채우기
 });
