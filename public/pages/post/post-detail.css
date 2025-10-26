@@ -1,0 +1,273 @@
+.post-detail-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* 게시글 상세 */
+.post-detail {
+  background: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* 게시글 헤더 */
+.post-detail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.post-detail__title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-black);
+  flex: 1;
+  word-break: break-word;
+}
+
+.post-detail__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* 게시글 메타 정보 */
+.post-detail__meta {
+  margin-bottom: 1.5rem;
+}
+
+.post-detail__author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-detail__author-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-detail__author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.post-detail__author-name {
+  font-weight: 700;
+  font-size: var(--font-base);
+  color: var(--color-black);
+}
+
+.post-detail__date {
+  font-size: var(--font-sm);
+  color: var(--color-gray-300);
+}
+
+/* 게시글 이미지 */
+.post-detail__image-container {
+  display: none;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-detail__image-container.show {
+  display: block;
+}
+
+.post-detail__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 게시글 내용 */
+.post-detail__content {
+  font-size: var(--font-base);
+  line-height: 1.6;
+  color: var(--color-black);
+  margin-bottom: 1.5rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 게시글 통계 */
+.post-detail__stats {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.post-detail__stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-sm);
+}
+
+.post-detail__stat-label {
+  color: var(--color-gray-300);
+}
+
+.post-detail__stat-value {
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+/* 좋아요 버튼 */
+.post-detail__like-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.post-detail__like-btn:hover .post-detail__stat-label,
+.post-detail__like-btn:hover .post-detail__stat-value {
+  color: var(--color-primary);
+}
+
+.post-detail__like-btn.liked .post-detail__stat-value {
+  color: var(--color-primary);
+}
+
+/* 댓글 섹션 */
+.comments-section {
+  background: var(--color-white);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.comments-section__title {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--color-black);
+}
+
+/* 댓글 작성 폼 */
+.comment-form {
+  margin-bottom: 1rem;
+}
+
+.comment-form__input-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.comment-form__textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: var(--font-base);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 56px;
+  transition: border-color 0.2s ease;
+  position: relative;
+  flex: 1;
+}
+
+.comment-form__textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.comment-form__submit-btn {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.85rem;
+  height: 56px;
+}
+
+.comment-form__footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.comment-form__char-count {
+  font-size: var(--font-sm);
+  color: var(--color-gray-300);
+}
+
+/* 댓글 목록 */
+.comments-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 댓글 없음 메시지 */
+.comments-empty {
+  display: none;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-gray-300);
+}
+
+.comments-empty.show {
+  display: block;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .post-detail-container {
+    padding: 0 0.5rem;
+  }
+
+  .post-detail {
+    padding: 1.5rem;
+  }
+
+  .post-detail__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-detail__actions {
+    width: 100%;
+  }
+
+  .post-detail__actions button {
+    flex: 1;
+  }
+
+  .post-detail__stats {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .comments-section {
+    padding: 1.5rem;
+  }
+
+  .comment-form__input-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .comment-form__submit-btn {
+    width: 100%;
+    align-self: stretch;
+    height: 56px;
+  }
+}
