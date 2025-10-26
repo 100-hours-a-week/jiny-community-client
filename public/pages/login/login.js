@@ -1,8 +1,6 @@
-import {
-  validateEmail,
-  validatePassword,
-} from '../../../utils/validation.js';
+import { validateEmail, validatePassword } from '../../../utils/validation.js';
 import { showError, hideError } from '../../../utils/dom.js';
+import { login } from '../../../api/auth/authApi.js';
 
 // 로그인 폼 처리
 const loginForm = document.getElementById('loginForm');
@@ -80,24 +78,17 @@ loginForm.addEventListener('submit', async e => {
   // 버튼 비활성화 (중복 클릭 방지)
   submitButton.disabled = true;
 
-  // TODO: API 호출
-  console.log('로그인 시도:', { email, password });
-
-  // 임시: 로그인 성공 시뮬레이션
-  const loginSuccess = true; // TODO: 실제 API 응답으로 대체
-
-  if (loginSuccess) {
+  try {
+    await login({ email, password });
     changeButtonColor();
-    console.log('로그인 시도:', { email });
-
-    // 1초 후 페이지 이동
-    setTimeout(() => {
-      // TODO: 백엔드 연동 후 post 목록 페이지로 이동
-      window.location.href = '/pages/home/home.html';
-    }, 1000);
-  } else {
-    // 로그인 실패 시
-    showError(passwordError, '아이디 또는 비밀번호를 확인해주세요');
+    window.location.href = '/pages/home/home.html';
+  } catch (error) {
+    showError(
+      passwordError,
+      error.message === 'invalid_credentials'
+        ? '아이디 또는 비밀번호를 확인해주세요.'
+        : error.message || '로그인에 실패했습니다. 다시 시도해주세요.'
+    );
     submitButton.disabled = false;
   }
 });
