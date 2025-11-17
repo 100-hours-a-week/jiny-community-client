@@ -294,14 +294,46 @@ async function handleTogglePostLike() {
   const postId = getPostIdFromUrl();
   if (!postId) return;
 
+  const wasLiked = isLiked;
+
   try {
-    if (isLiked) {
-      await removePostLike(postId);
+    let result;
+    if (wasLiked) {
+      result = await removePostLike(postId);
     } else {
-      await addPostLike(postId);
+      result = await addPostLike(postId);
     }
 
-    await refreshPost();
+    // 좋아요 API 응답 데이터로 UI 업데이트 (조회수 증가 방지)
+    if (result && result.postId !== undefined) {
+      // API 응답에 데이터가 있는 경우 (좋아요 추가)
+      isLiked = Boolean(result.isLiked);
+
+      const likeCountElement = document.getElementById('likes-count');
+      if (likeCountElement && result.likeCount !== undefined) {
+        likeCountElement.textContent = formatCount(result.likeCount);
+      }
+
+      const likeBtn = document.getElementById('like-btn');
+      if (likeBtn) {
+        likeBtn.classList.toggle('liked', isLiked);
+      }
+    } else if (result === null && wasLiked) {
+      // 좋아요 제거 시 응답이 null인 경우 수동 업데이트
+      isLiked = false;
+
+      const likeCountElement = document.getElementById('likes-count');
+      if (likeCountElement) {
+        const currentCount = parseInt(likeCountElement.textContent.replace(/,/g, '')) || 0;
+        const newCount = Math.max(0, currentCount - 1);
+        likeCountElement.textContent = formatCount(newCount);
+      }
+
+      const likeBtn = document.getElementById('like-btn');
+      if (likeBtn) {
+        likeBtn.classList.remove('liked');
+      }
+    }
   } catch (error) {
     console.error('게시글 좋아요 토글 에러:', error);
     alert(error.message || '좋아요 처리에 실패했습니다.');
