@@ -8,7 +8,9 @@
   background: linear-gradient(135deg, #ffffff 0%, #f9f8ff 100%);
   box-shadow: 0 12px 30px rgba(22, 32, 77, 0.08);
   border: 1px solid rgba(127, 106, 238, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .post-card:focus-visible,
