@@ -58,7 +58,9 @@ app.use((req, res) => {
   res.status(404).send('Not Found');
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀  Server running at http://0.0.0.0:${PORT}`);
-  console.log(`📡 Health check available at http://0.0.0.0:${PORT}/health`);
+const HOST = isProduction ? '0.0.0.0' : 'localhost';
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀  Server running at http://${HOST}:${PORT}`);
+  console.log(`📡 Health check available at http://${HOST}:${PORT}/health`);
 });
