@@ -8,12 +8,12 @@ function assertPostId(postId) {
 
 export async function addPostLike(postId) {
   assertPostId(postId);
-  const response = await post(`/posts/${postId}/like`);
+  const response = await post(`/posts/${postId}/likes`);
   return response.data ?? null;
 }
 
 export async function removePostLike(postId) {
   assertPostId(postId);
-  const response = await del(`/posts/${postId}/like`, { parseJson: true });
+  const response = await del(`/posts/${postId}/likes`, { parseJson: true });
   return response.data ?? null;
 }
